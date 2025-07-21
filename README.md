@@ -19,7 +19,7 @@ TBC --> Upcoming in Near Future
 ## 📫 Let's Connect!
 Feel free to reach out for collaborations or just a chat about embedded tech!
 
-<a href="https://https://www.linkedin.com/in/sri-hari-shankar-sharma-1742b1150//">
+<a href="https://www.linkedin.com/in/sri-hari-shankar-sharma-1742b1150//">
     <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
 </a>
 <a href="mailto:sriharijosyula@gmail.com">
