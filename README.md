@@ -1,32 +1,65 @@
-## Hi there I'm Josyula Sri Hari Shankar Sharma 👋
+# Hi, I'm Sri Hari Shankar Sharma 👋
 
-I'm an Embedded Systems Engineer passionate about building efficient, reliable firmware for IoT devices and robotics. I thrive on bridging the gap between hardware and software, from bare-metal programming on microcontrollers to developing for Real-Time Operating Systems (RTOS).
+Embedded Systems Engineer who learns by breaking things and fixing them. I write firmware that doesn't fall apart when it hits real hardware.
 
-## 🛠️ My Tech Stack & Skills
 
-| Category | Skills |
-| :--- | :--- |
-| Languages | C, C++, Python, ARM Assembly |
-| Operating Systems | Windows, Linux |
-| Microcontrollers | STM32, Raspberry Pi V |
-| RTOS & Bare-metal | FreeRTOS, Zephyr, Bare-metal (Register-level) Programming |
-| Protocols | I2C, SPI, UART, CAN, USB, ADC, PWM |
-| Hardware Tools | JTAG Debuggers, Oscilloscope, Logic Analyzer |
-| Software & Tools | Git, CMake, GDB, Keil, STM32CubeIDE, VS Code, Arduino  |
+## 🛠️ What I Work With
 
-## ✨ Featured Projects
+| Category | Tech Stack |
+|----------|------------|
+| **Working Languages** | C, ARM Assembly |
+| **Known Languages** | C++ |
+| **Platforms** | STM32 (G0, F4 series) |
+| **RTOS & Bare-metal** | FreeRTOS, Zephyr, Custom Kernel Development, Register-level Programming |
+| **Protocols** | UART, SPI, I2C, CAN, USB, ADC, PWM |
+| **Tools** | STM32CubeIDE, Keil, GDB, JTAG, Oscilloscope, Logic Analyzer, Git |
 
-### 🧠 Custom Preemptive RTOS Kernel from Scratch
-This project is a deep dive into operating system design, involving the creation of a lightweight, preemptive RTOS kernel for **ARM Cortex-M** microcontrollers. The goal was to understand and implement the core mechanics of a modern real-time operating system, including task scheduling, context switching, and inter-process communication.
-More details & updates to be added soon!!!
+---
 
-## 📫 Let's Connect!
+## Projects
 
-Feel free to reach out for collaborations or just a chat about embedded tech!
+### [Serial-JSON-Bridge](https://github.com/yourusername/serial-json-bridge)
+Bare-metal UART driver with JSON parsing on STM32. No HAL. No dynamic allocation. Just registers and interrupts.
 
-<a href="https://www.linkedin.com/in/sriharishankarsharma/">
-    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
-</a>
-<a href="mailto:sriharijosyula@gmail.com">
-    <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
-</a>
+**What it does:** Takes hardcoded JSON, parses it with JSMN on the MCU, transmits parsed data over UART.
+
+**What I learned:**
+- Hit a stack overflow, debugged a hard fault, understood memory constraints
+- Built interrupt-driven state machines that don't lose data
+- Separated driver and application logic properly
+
+**Tech:** STM32G0 | UART (9600 baud) | JSMN Parser | Bare-metal C
+
+---
+
+### Custom Preemptive RTOS Kernel
+Building an RTOS from scratch on ARM Cortex-M to understand how task scheduling, context switching, and IPC actually work.
+
+**Status:** Active development. Details coming soon.
+
+---
+
+## How I Build
+
+- Start simple, validate on real hardware
+- No magic numbers—document everything with datasheets
+- Driver layer stays separate from application logic
+- Test until it breaks, then fix it
+
+---
+
+## Currently Learning
+
+- Advanced DMA for high-throughput transfers
+- Power optimization for battery systems
+- Bootloader development and OTA updates
+- CMSIS-DSP for real-time signal processing
+
+---
+
+## Get In Touch
+
+Open to firmware roles involving RTOS, bare-metal programming, or driver architecture. Let's talk if you're building something real.
+
+ [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sriharishankarsharma/)
+ [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:sriharijosyula@gmail.com)
