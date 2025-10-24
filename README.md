@@ -51,9 +51,9 @@ Building an RTOS from scratch on ARM Cortex-M to understand how task scheduling,
 ## Currently Learning
 
 - Advanced DMA for high-throughput transfers
-- Power optimization for battery systems
-- Bootloader development and OTA updates
-- CMSIS-DSP for real-time signal processing
+- Setting up ARM build toolchains
+- Bootloader development
+- Kernel Building
 
 ---
 
