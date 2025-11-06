@@ -18,6 +18,29 @@ Embedded Systems Engineer who learns by breaking things and fixing them. I write
 
 ## Projects
 
+### [STM32-Serial-Shell](https://github.com/BlackWiz/STM32-Serial-Shell)
+Interrupt-driven command-line interface over UART. Type commands, STM32 executes them, sends response back.
+What it does:
+
+Command registration system with help, set, get built-in
+Interrupt-driven UART with state machine (IDLE → TX_BUSY → IDLE)
+Optional JSON parsing with JSMN
+Hardware error detection and recovery
+
+Architecture: 3 clean layers
+
+Driver (uart.c) → Parser (em-cli.c) → Application (main.c)
+Zero dynamic allocation, fixed buffers
+ISR handles bytes, main loop processes commands
+
+What I learned:
+
+Debugged hard faults from stack overflow
+Built state machines that don't lose data in interrupts
+Separated driver logic from application properly
+
+Tech: STM32G071RB | Bare-metal C | UART interrupts | Custom Makefile + OpenOCD
+
 ### [Serial-JSON-Bridge](https://github.com/yourusername/serial-json-bridge)
 Bare-metal UART driver with JSON parsing on STM32. No HAL. No dynamic allocation. Just registers and interrupts.
 
