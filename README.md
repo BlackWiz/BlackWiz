@@ -19,27 +19,22 @@ Embedded Systems Engineer who learns by breaking things and fixing them. I write
 ## Projects
 
 ### [STM32-Serial-Shell](https://github.com/BlackWiz/STM32-Serial-Shell)
-Interrupt-driven command-line interface over UART. Type commands, STM32 executes them, sends response back.
-What it does:
 
-Command registration system with help, set, get built-in
-Interrupt-driven UART with state machine (IDLE → TX_BUSY → IDLE)
-Optional JSON parsing with JSMN
-Hardware error detection and recovery
+Interrupt-driven command-line interface (CLI) for STM32 that processes text and JSON commands over UART. 
+Built entirely in bare-metal C to explore embedded parsers, interrupt handling, and driver architecture.
 
-Architecture: 3 clean layers
+**What it does:** Provides a UART-based command interface with built-in commands (help, set, get) and optional JSON parsing using JSMN. 
+Uses a clean 3-layer structure separating driver, parser, and application logic.
 
-Driver (uart.c) → Parser (em-cli.c) → Application (main.c)
-Zero dynamic allocation, fixed buffers
-ISR handles bytes, main loop processes commands
+**What I learned:**
+- Integrated a non-blocking CLI parser on top of an interrupt-driven UART driver
+- Designed command registration and dispatch mechanisms between ISR and main loop
+- Implemented safe data handoff between driver and parser layers without race conditions
+- Improved understanding of event-driven design and modular firmware layering
+  
+**Tech:** STM32G071RB | Bare-metal C | UART interrupts | Custom Makefile
 
-What I learned:
-
-Debugged hard faults from stack overflow
-Built state machines that don't lose data in interrupts
-Separated driver logic from application properly
-
-Tech: STM32G071RB | Bare-metal C | UART interrupts | Custom Makefile + OpenOCD
+---
 
 ### [Serial-JSON-Bridge](https://github.com/BlackWiz/Serial-JSON-Bridge)
 
