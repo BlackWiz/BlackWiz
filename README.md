@@ -41,7 +41,8 @@ Separated driver logic from application properly
 
 Tech: STM32G071RB | Bare-metal C | UART interrupts | Custom Makefile + OpenOCD
 
-### [Serial-JSON-Bridge](https://github.com/yourusername/serial-json-bridge)
+### [Serial-JSON-Bridge](https://github.com/BlackWiz/Serial-JSON-Bridge)
+
 Bare-metal UART driver with JSON parsing on STM32. No HAL. No dynamic allocation. Just registers and interrupts.
 
 **What it does:** Takes hardcoded JSON, parses it with JSMN on the MCU, transmits parsed data over UART.
