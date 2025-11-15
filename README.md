@@ -9,7 +9,9 @@ I spent years working above hardware abstractions. Now I'm learning what's below
 ## 🎯 My Transition Journey
 
 **Background:** 7 years as Senior Engineer in automotive software (application layer)
+
 **Current Focus:** Teaching myself embedded systems fundamentals through hands-on hardware projects
+
 **Goal:** Transition to firmware/embedded roles where I work directly with hardware
 
 **Why the switch?** After years of promises about "hardware opportunities coming soon," I decided to create my own path. I'm investing my time learning register-level programming, interrupt-driven architecture, and real hardware debugging.
