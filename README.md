@@ -43,7 +43,7 @@ I spent years working above hardware abstractions. Now I'm learning what's below
 
 ## 🚀 Learning Portfolio
 
-### [Cortex-M0-RTOS-Kernel](https://github.com/BlackWiz/cortex-mo-kernel)
+### [Cortex-M0-RTOS-Kernel](https://github.com/BlackWiz/Cortex-M0-RTOS-Kernel)
 **Preemptive Priority-Based RTOS from Scratch**
 
 Built a complete Real-Time Operating System for ARM Cortex-M0+ as part of M.Tech dissertation. 
