@@ -27,7 +27,7 @@ I spent years working above hardware abstractions. Now I'm learning what's below
 | **Architecture** | Bare-metal C, Register-level programming, Interrupt-driven design |
 | **Peripherals** | UART (deep), GPIO, Timers, DMA (in progress) |
 | **Protocols** | UART, SPI (learning), I2C (learning) |
-| **RTOS** | FreeRTOS (learning), Custom kernel development (in progress) |
+| **RTOS** | FreeRTOS (learning), Custom kernel development (completed) |
 | **Tools** | ARM GCC, GDB, OpenOCD, ST-Link, Make, Oscilloscope (basic), Logic Analyzer (basic) |
 | **Debugging** | JTAG (learning), Stack analysis, Hardware validation |
 
@@ -43,19 +43,45 @@ I spent years working above hardware abstractions. Now I'm learning what's below
 
 ## 🚀 Learning Portfolio
 
-### [STM32-Serial-Shell](https://github.com/BlackWiz/STM32-Serial-Shell)
-**Interrupt-driven CLI with JSON command support**
+### [Cortex-M0-RTOS-Kernel](https://github.com/BlackWiz/cortex-mo-kernel)
+**Preemptive Priority-Based RTOS from Scratch**
 
-Built a command-line interface on bare-metal STM32 that processes text and JSON commands over UART. 
-Focused on learning parser integration, event-driven design, and clean driver/application separation.
+Built a complete Real-Time Operating System for ARM Cortex-M0+ as part of M.Tech dissertation. 
+This was the deep dive—implementing task scheduling, context switching, synchronization primitives, 
+and memory management entirely from first principles.
+
+**Core Features Implemented:**
+- **Scheduler:** O(1) priority-based preemptive scheduler with 8 priority levels
+- **Context Switching:** Hand-written ARM Cortex-M0+ assembly (measured 4.81 µs @ 16 MHz)
+- **Synchronization:** Semaphores, mutexes with priority inheritance protocol
+- **IPC:** Message queues with blocking send/receive
+- **Memory Management:** Fixed-block allocator with O(1) allocation/deallocation
+- **Safety:** Stack overflow detection with canary values
+- **Power:** Tickless idle mode for low-power operation
+- **HAL:** Hardware abstraction layer for portability
+
+**The Hard Parts:**
+- Debugging context switch corruption (stack alignment issues took 3 days)
+- Implementing priority inheritance without deadlock scenarios
+- Hand-writing PendSV handler in ARM assembly for Cortex-M0+ constraints
+- Managing 36KB RAM budget across 16 tasks with proper stack allocation
+- Building comprehensive test suite (13 automated tests covering all features)
 
 **Key Learnings:**
-- Integrated non-blocking CLI parser with interrupt-driven UART driver
-- Designed command registration and dispatch mechanisms
-- Implemented safe data handoff between ISR and main loop (no race conditions)
-- Built modular firmware architecture (driver → parser → application layers)
+- Deep understanding of ARM Cortex-M exception model and interrupt priorities
+- Stack frame layout and PSP/MSP register management
+- Critical section design and interrupt masking strategies
+- Trade-offs between O(1) scheduling vs memory overhead
+- Hardware timer programming for RTOS tick generation
 
-**Tech:** STM32G071RB | Bare-metal C | UART interrupts | JSMN parser | Custom Makefile
+**Performance Metrics:**
+- Context switch: 4.81 µs (target: <10 µs) ✅
+- Memory allocation: O(1) constant time ✅
+- Kernel footprint: ~8 KB FLASH ✅
+- Stack overhead: 1 KB per task
+- Tested with 6 concurrent tasks under stress
+
+**Tech:** STM32G071RB | Bare-metal C | ARM Assembly | Cortex-M0+ | SysTick | PendSV | 13 automated tests
 
 ---
 
@@ -81,14 +107,27 @@ and learned what "memory constraints" actually means.
 
 ---
 
-### Custom Preemptive RTOS Kernel ⏳
-**Building an RTOS from scratch on ARM Cortex-M**
+### [STM32-Serial-Shell](https://github.com/BlackWiz/STM32-Serial-Shell) ⏳
+**Interrupt-driven CLI with custom protocol (In Progress)**
 
-Learning how task scheduling, context switching, and inter-process communication actually work 
-by implementing them myself.
+Building a command-line interface on bare-metal STM32 that processes text and JSON commands over UART. 
+Currently implementing a custom communication protocol to complete the full stack—from hardware driver 
+through protocol layer to application commands.
 
-**Status:** Active development
-**Goal:** Understand what FreeRTOS does under the hood
+**Current Status:**
+- ✅ Interrupt-driven UART driver integrated
+- ✅ Non-blocking CLI parser with command dispatch
+- ✅ Safe ISR-to-main-loop data handoff (zero race conditions)
+- ✅ Modular architecture (driver → parser → application separation)
+- 🔨 Custom protocol implementation (in progress)
+
+**Key Learnings So Far:**
+- Event-driven firmware design patterns
+- Command registration and dispatch mechanisms
+- Clean separation between hardware, protocol, and application layers
+- Non-blocking parser integration with interrupt-driven I/O
+
+**Tech:** STM32G071RB | Bare-metal C | UART interrupts | JSMN parser | Custom protocol (WIP) | Custom Makefile
 
 ---
 
@@ -111,10 +150,11 @@ by implementing them myself.
 ## 🎯 Next Steps (My Roadmap)
 
 **Immediate (Next 2-3 Months):**
+- [x] Complete custom RTOS kernel (DONE - see Cortex-M0-RTOS-Kernel)
+- [ ] Complete STM32-Serial-Shell with custom protocol
 - [ ] Complete UART driver with DMA
 - [ ] Build SPI driver + sensor integration
 - [ ] Build I2C driver + EEPROM interface
-- [ ] Finish custom RTOS kernel basics
 
 **Near-term (3-6 Months):**
 - [ ] Multi-peripheral system integration
@@ -139,10 +179,11 @@ by implementing them myself.
 - ✅ Genuine passion for hardware (not just career desperation)
 - ✅ Hands-on experience (real hardware, real debugging)
 - ✅ Growth mindset (document failures, iterate, improve)
+- ✅ Deep dive capability (built complete RTOS from scratch)
 
 **What I'm looking for:**
 Entry-level to junior embedded/firmware roles where I can apply software engineering 
-Fundamentals of hardware development and learn from experienced embedded engineers.
+fundamentals to hardware development and learn from experienced embedded engineers.
 
 ---
 
