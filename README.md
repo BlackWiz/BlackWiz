@@ -107,27 +107,26 @@ and learned what "memory constraints" actually means.
 
 ---
 
-### [STM32-Serial-Shell](https://github.com/BlackWiz/STM32-Serial-Shell) ⏳
-**Interrupt-driven CLI with custom protocol (In Progress)**
+## [TinyServe-STM32](https://github.com/BlackWiz/TinyServe-STM32-Bare-Metal-Networked-File-Server) ⏳
+**Bare-Metal Networked File Server (No OS, No TCP/IP)**
 
-Building a command-line interface on bare-metal STM32 that processes text and JSON commands over UART. 
-Currently implementing a custom communication protocol to complete the full stack—from hardware driver 
-through protocol layer to application commands.
+A collaborative system engineering project to build a remote file storage node on STM32G0. We are replacing standard heavy IP stacks (LwIP) with **"MiniProt"**, a custom lightweight (<8KB) transport protocol running over Raw Ethernet frames, to enable file management on an SD Card.
 
-**Current Status:**
-- ✅ Interrupt-driven UART driver integrated
-- ✅ Non-blocking CLI parser with command dispatch
-- ✅ Safe ISR-to-main-loop data handoff (zero race conditions)
-- ✅ Modular architecture (driver → parser → application separation)
-- 🔨 Custom protocol implementation (in progress)
+### My Role (Network & Protocol Lead)
+Responsible for the communication stack—from the physical SPI driver for the ENC28J60 Ethernet controller up to the custom Transport Layer implementation.
 
-**Key Learnings So Far:**
-- Event-driven firmware design patterns
-- Command registration and dispatch mechanisms
-- Clean separation between hardware, protocol, and application layers
-- Non-blocking parser integration with interrupt-driven I/O
+### Current Status (Phase 1 - Foundation)
+- 🚧 **Protocol Stack**: Designing "MiniProt" (L2/L4) state machine for packet framing and ARQ reliability
+- 🚧 **TDD Framework**: Setting up Unity for unit testing protocol logic on PC before deployment
+- 🚧 **Driver Integration**: Porting ENC28J60 driver to custom bare-metal SPI implementation
+- 📅 **Target Milestone**: Reliable Loopback Test by Dec 15, 2025
 
-**Tech:** STM32G071RB | Bare-metal C | UART interrupts | JSMN parser | Custom protocol (WIP) | Custom Makefile
+### Key Technical Challenges
+- **Architecting "MiniProt"**: Implementing a robust sliding-window protocol to handle packet loss without the overhead of TCP
+- **Resource Contention**: Designing a mutex-free SPI arbiter to manage collisions between the Ethernet Controller and SD Card (both on SPI)
+- **Constraint Compliance**: Adhering to MISRA C:2012 guidelines and Test Driven Development (TDD) workflow
+
+**Tech**: STM32G071RB | Bare-metal C | ENC28J60 (Ethernet) | FatFs | SPI Arbitration | MISRA C | Unity (TDD)
 
 ---
 
