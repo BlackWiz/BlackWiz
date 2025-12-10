@@ -25,11 +25,12 @@ I spent years working above hardware abstractions. Now I'm learning what's below
 |----------|--------|
 | **Microcontrollers** | STM32 (G0 series - deep), F4 series (learning) |
 | **Architecture** | Bare-metal C, Register-level programming, Interrupt-driven design |
-| **Peripherals** | UART (deep), GPIO, Timers, DMA (in progress) |
-| **Protocols** | UART, SPI (learning), I2C (learning) |
+| **Peripherals** | UART (deep), GPIO, Timers, SPI (in progress), DMA (learning) |
+| **Protocols** | UART, Custom network protocols, SPI (learning), I2C (learning) |
 | **RTOS** | FreeRTOS (learning), Custom kernel development (completed) |
-| **Tools** | ARM GCC, GDB, OpenOCD, ST-Link, Make, Oscilloscope (basic), Logic Analyzer (basic) |
+| **Tools** | ARM GCC, GDB, OpenOCD, ST-Link, Make, Unity (TDD), Oscilloscope (basic), Logic Analyzer (basic) |
 | **Debugging** | JTAG (learning), Stack analysis, Hardware validation |
+| **Standards** | MISRA C:2012 (learning), Test Driven Development |
 
 ### Software Engineering (Professional, 7 Years)
 | Category | Skills |
@@ -37,7 +38,7 @@ I spent years working above hardware abstractions. Now I'm learning what's below
 | **Languages** | C (proficient), C++ (familiar), ARM Assembly (learning) |
 | **Development** | Git, Requirements analysis, Testing (unit/integration/system) |
 | **Domain** | Automotive software development |
-| **Methodologies** | Agile, V-Model validation |
+| **Methodologies** | Agile, V-Model validation, TDD |
 
 ---
 
@@ -85,6 +86,43 @@ and memory management entirely from first principles.
 
 ---
 
+### [TinyServe-STM32](https://github.com/BlackWiz/TinyServe-STM32-Bare-Metal-Networked-File-Server) ⏳
+**Bare-Metal Networked File Server (No OS, No TCP/IP)**
+
+A collaborative system engineering project to build a remote file storage node on STM32G0. We are replacing standard heavy IP stacks (LwIP) with **"MiniProt"**, a custom lightweight (<8KB) transport protocol running over Raw Ethernet frames, to enable file management on an SD Card.
+
+**System Overview:**
+- **Goal:** Remote file operations (read/write/manage) on SD card via Ethernet
+- **Constraint:** No TCP/IP stack, no RTOS - everything bare-metal
+- **Innovation:** Custom L2/L4 protocol stack over raw Ethernet frames
+- **Development:** MISRA C:2012 compliant, Test Driven Development workflow
+
+**My Role (Network & Protocol Lead):**
+
+Responsible for the entire communication stack—from the physical SPI driver for the ENC28J60 Ethernet controller up to the custom Transport Layer implementation.
+
+**Current Status (Phase 1 - Foundation):**
+- 🚧 **Protocol Stack:** Designing "MiniProt" (L2/L4) state machine for packet framing and ARQ reliability
+- 🚧 **TDD Framework:** Setting up Unity for unit testing protocol logic on PC before deployment
+- 🚧 **Driver Integration:** Porting ENC28J60 driver to custom bare-metal SPI implementation
+- 📅 **Target Milestone:** Reliable Loopback Test by Dec 15, 2025
+
+**Key Technical Challenges:**
+- **Architecting "MiniProt":** Implementing a robust sliding-window protocol to handle packet loss without the overhead of TCP
+- **Resource Contention:** Designing a mutex-free SPI arbiter to manage collisions between the Ethernet Controller and SD Card (both sharing SPI bus)
+- **Constraint Compliance:** Adhering to MISRA C:2012 guidelines and Test Driven Development (TDD) workflow
+- **Memory Budget:** Keeping entire protocol stack under 8KB FLASH on 36KB RAM system
+
+**What I'm Building:**
+1. **Bare-metal SPI Driver:** Register-level driver for STM32G0 SPI peripheral
+2. **ENC28J60 Driver:** Low-level Ethernet controller driver with packet TX/RX
+3. **MiniProt Stack:** Custom protocol with framing, CRC-16 validation, and ARQ for reliability
+4. **Protocol State Machine:** Handling connection management, retransmission, and error recovery
+
+**Tech:** STM32G071RB | Bare-metal C | ENC28J60 (Ethernet) | FatFs | SPI Arbitration | MISRA C | Unity (TDD)
+
+---
+
 ### [Serial-JSON-Bridge](https://github.com/BlackWiz/Serial-JSON-Bridge)
 **Bare-metal UART driver with JSON parsing**
 
@@ -107,29 +145,6 @@ and learned what "memory constraints" actually means.
 
 ---
 
-## [TinyServe-STM32](https://github.com/BlackWiz/TinyServe-STM32-Bare-Metal-Networked-File-Server) ⏳
-**Bare-Metal Networked File Server (No OS, No TCP/IP)**
-
-A collaborative system engineering project to build a remote file storage node on STM32G0. We are replacing standard heavy IP stacks (LwIP) with **"MiniProt"**, a custom lightweight (<8KB) transport protocol running over Raw Ethernet frames, to enable file management on an SD Card.
-
-### My Role (Network & Protocol Lead)
-Responsible for the communication stack—from the physical SPI driver for the ENC28J60 Ethernet controller up to the custom Transport Layer implementation.
-
-### Current Status (Phase 1 - Foundation)
-- 🚧 **Protocol Stack**: Designing "MiniProt" (L2/L4) state machine for packet framing and ARQ reliability
-- 🚧 **TDD Framework**: Setting up Unity for unit testing protocol logic on PC before deployment
-- 🚧 **Driver Integration**: Porting ENC28J60 driver to custom bare-metal SPI implementation
-- 📅 **Target Milestone**: Reliable Loopback Test by Dec 15, 2025
-
-### Key Technical Challenges
-- **Architecting "MiniProt"**: Implementing a robust sliding-window protocol to handle packet loss without the overhead of TCP
-- **Resource Contention**: Designing a mutex-free SPI arbiter to manage collisions between the Ethernet Controller and SD Card (both on SPI)
-- **Constraint Compliance**: Adhering to MISRA C:2012 guidelines and Test Driven Development (TDD) workflow
-
-**Tech**: STM32G071RB | Bare-metal C | ENC28J60 (Ethernet) | FatFs | SPI Arbitration | MISRA C | Unity (TDD)
-
----
-
 ## 📖 How I Learn
 
 **My approach:**
@@ -140,9 +155,10 @@ Responsible for the communication stack—from the physical SPI driver for the E
 5. Iterate and improve
 
 **Current learning pattern:**
-- UART driver (done) → UART with DMA (in progress) → SPI → I2C
+- UART driver (done) → Custom protocols (in progress) → SPI + Ethernet → I2C
 - Build depth in one peripheral before moving to next
 - Each project builds on previous learnings
+- Now focusing on networking and protocol design
 
 ---
 
@@ -150,9 +166,9 @@ Responsible for the communication stack—from the physical SPI driver for the E
 
 **Immediate (Next 2-3 Months):**
 - [x] Complete custom RTOS kernel (DONE - see Cortex-M0-RTOS-Kernel)
-- [ ] Complete STM32-Serial-Shell with custom protocol
+- [ ] Complete TinyServe-STM32 Phase 1 (Protocol Stack + Loopback Test)
+- [ ] Complete TinyServe-STM32 Phase 2 (Full NAS functionality)
 - [ ] Complete UART driver with DMA
-- [ ] Build SPI driver + sensor integration
 - [ ] Build I2C driver + EEPROM interface
 
 **Near-term (3-6 Months):**
@@ -179,6 +195,7 @@ Responsible for the communication stack—from the physical SPI driver for the E
 - ✅ Hands-on experience (real hardware, real debugging)
 - ✅ Growth mindset (document failures, iterate, improve)
 - ✅ Deep dive capability (built complete RTOS from scratch)
+- ✅ Protocol design experience (custom networking stack in progress)
 
 **What I'm looking for:**
 Entry-level to junior embedded/firmware roles where I can apply software engineering 
