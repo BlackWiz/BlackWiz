@@ -89,37 +89,86 @@ and memory management entirely from first principles.
 ### [TinyServe-STM32](https://github.com/BlackWiz/TinyServe-STM32-Bare-Metal-Networked-File-Server) ⏳
 **Bare-Metal Networked File Server (No OS, No TCP/IP)**
 
-A collaborative system engineering project to build a remote file storage node on STM32G0. We are replacing standard heavy IP stacks (LwIP) with **"MiniProt"**, a custom lightweight (<8KB) transport protocol running over Raw Ethernet frames, to enable file management on an SD Card.
+Collaborative project building a remote file storage node on STM32G0. Replacing heavy IP stacks with **"MiniProt"**, 
+a custom lightweight (<8KB) transport protocol over raw Ethernet frames for SD card file management.
 
-**System Overview:**
-- **Goal:** Remote file operations (read/write/manage) on SD card via Ethernet
-- **Constraint:** No TCP/IP stack, no RTOS - everything bare-metal
-- **Innovation:** Custom L2/L4 protocol stack over raw Ethernet frames
-- **Development:** MISRA C:2012 compliant, Test Driven Development workflow
+**Team Split (Target: Dec 17, 2025):**
+- **My Role:** Protocol framing, CRC-16 error detection/correction, bare-metal SPI driver, ENC28J60 integration
+- **Sathvik:** Protocol reliability and security mechanisms
 
-**My Role (Network & Protocol Lead):**
+**Project Phases:**
+1. **Phase 1 (Dec 17):** ENC28J60 driver analysis, bare-metal SPI driver, protocol implementation, driver integration
+2. **Phase 2:** FatFs integration, Em-CLI for remote operations, SD card file management
+3. **Phase 3:** IoT add-on (problem statement TBD)
 
-Responsible for the entire communication stack—from the physical SPI driver for the ENC28J60 Ethernet controller up to the custom Transport Layer implementation.
+**IoT Use Case:**
 
-**Current Status (Phase 1 - Foundation):**
-- 🚧 **Protocol Stack:** Designing "MiniProt" (L2/L4) state machine for packet framing and ARQ reliability
-- 🚧 **TDD Framework:** Setting up Unity for unit testing protocol logic on PC before deployment
-- 🚧 **Driver Integration:** Porting ENC28J60 driver to custom bare-metal SPI implementation
-- 📅 **Target Milestone:** Reliable Loopback Test by Dec 15, 2025
+```mermaid
+flowchart TB
+    subgraph IoT_Sensors["IoT Sensor Network"]
+        S1[Temperature Sensor]
+        S2[Humidity Sensor]
+        S3[Motion Sensor]
+        S4[Other IoT Devices]
+    end
+    
+    subgraph Edge_Device["TinyServe-STM32 (Edge Node)"]
+        ETH[Ethernet Controller<br/>ENC28J60]
+        MCU[STM32G0<br/>Protocol Stack]
+        SD[SD Card Storage<br/>FatFs]
+        
+        ETH <-->|SPI| MCU
+        MCU <-->|SPI| SD
+    end
+    
+    subgraph Cloud_Backend["Remote System"]
+        GW[Gateway/Server]
+        DB[(Database)]
+        API[REST API]
+        UI[Web Dashboard]
+        
+        GW --> DB
+        DB --> API
+        API --> UI
+    end
+    
+    S1 -->|Sensor Data| MCU
+    S2 -->|Sensor Data| MCU
+    S3 -->|Sensor Data| MCU
+    S4 -->|Sensor Data| MCU
+    
+    MCU -->|Store Locally| SD
+    MCU <-->|MiniProt over Ethernet| ETH
+    ETH <-->|Network| GW
+    
+    UI -->|Query/Commands| API
+    API -->|Retrieve Data| GW
+    GW <-->|File Operations| ETH
+    
+    style Edge_Device fill:#e1f5ff
+    style IoT_Sensors fill:#fff4e1
+    style Cloud_Backend fill:#f0e1ff
+    
+    classDef storage fill:#c8e6c9
+    class SD storage
+```
 
-**Key Technical Challenges:**
-- **Architecting "MiniProt":** Implementing a robust sliding-window protocol to handle packet loss without the overhead of TCP
-- **Resource Contention:** Designing a mutex-free SPI arbiter to manage collisions between the Ethernet Controller and SD Card (both sharing SPI bus)
-- **Constraint Compliance:** Adhering to MISRA C:2012 guidelines and Test Driven Development (TDD) workflow
-- **Memory Budget:** Keeping entire protocol stack under 8KB FLASH on 36KB RAM system
+Solving **edge data storage + remote accessibility** for IoT deployments: local buffering during network outages, 
+lightweight remote file operations, cost-effective Ethernet over cellular/WiFi.
 
-**What I'm Building:**
-1. **Bare-metal SPI Driver:** Register-level driver for STM32G0 SPI peripheral
-2. **ENC28J60 Driver:** Low-level Ethernet controller driver with packet TX/RX
-3. **MiniProt Stack:** Custom protocol with framing, CRC-16 validation, and ARQ for reliability
-4. **Protocol State Machine:** Handling connection management, retransmission, and error recovery
+**The Hard Parts:**
+- Designing lightweight protocol with robust framing and error correction
+- SPI arbiter for Ethernet Controller + SD Card on shared bus (no mutex)
+- MISRA C:2012 compliance with TDD workflow
+- 8KB protocol stack budget on 36KB RAM system
 
-**Tech:** STM32G071RB | Bare-metal C | ENC28J60 (Ethernet) | FatFs | SPI Arbitration | MISRA C | Unity (TDD)
+**Key Learnings:**
+- Custom protocol design over raw Ethernet frames (no TCP/IP overhead)
+- Register-level SPI driver with resource contention management
+- TDD for protocol logic validation before hardware deployment
+- ENC28J60 Ethernet controller architecture and integration
+
+**Tech:** STM32G071RB | Bare-metal C | ENC28J60 (Ethernet) | FatFs | Em-CLI | SPI Arbitration | MISRA C | Unity (TDD)
 
 ---
 
