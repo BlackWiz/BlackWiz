@@ -194,6 +194,19 @@ and learned what "memory constraints" actually means.
 
 ---
 
+### [STM32-Serial-Shell](https://github.com/BlackWiz/STM32-Serial-Shell)
+**Interactive Command-Line Interface for Embedded Systems**
+
+Building on Serial-JSON-Bridge, this project adds human-machine interaction through a full CLI framework. Created extensible command registration system with built-in commands (`help`, `set`, `get`) and JSMN parser integration for future JSON protocol support—serving as the foundation for TinyServe's Em-CLI remote management interface.
+
+**The Hard Parts:** Designing memory-efficient command registration without dynamic allocation, handling user input edge cases (incomplete commands, buffer overflows), creating clean separation between UART driver layer and CLI parser logic, building extensible framework under STM32G0 constraints.
+
+**Key Learnings:** User interface design for resource-constrained systems, command parsing and tokenization strategies, building frameworks in bare-metal C with zero malloc, importance of good CLI help systems in embedded tools.
+
+**Tech:** STM32G071RB | Bare-metal C | UART | Command Parser | JSMN | Extensible Architecture
+
+---
+
 ## 📖 How I Learn
 
 **My approach:**
@@ -204,7 +217,7 @@ and learned what "memory constraints" actually means.
 5. Iterate and improve
 
 **Current learning pattern:**
-- UART driver (done) → Custom protocols (in progress) → SPI + Ethernet → I2C
+- UART driver (done) → CLI interface (done) → Custom protocols (in progress) → SPI + Ethernet → I2C
 - Build depth in one peripheral before moving to next
 - Each project builds on previous learnings
 - Now focusing on networking and protocol design
@@ -215,6 +228,7 @@ and learned what "memory constraints" actually means.
 
 **Immediate (Next 2-3 Months):**
 - [x] Complete custom RTOS kernel (DONE - see Cortex-M0-RTOS-Kernel)
+- [x] Complete Interactive CLI (DONE - foundation for TinyServe Em-CLI)
 - [ ] Complete TinyServe-STM32 Phase 1 (Protocol Stack + Loopback Test)
 - [ ] Complete TinyServe-STM32 Phase 2 (Full NAS functionality)
 - [ ] Complete UART driver with DMA
