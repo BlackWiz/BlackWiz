@@ -86,89 +86,42 @@ and memory management entirely from first principles.
 
 ---
 
-### [TinyServe-STM32](https://github.com/BlackWiz/TinyServe-STM32-Bare-Metal-Networked-File-Server) ⏳
-**Bare-Metal Networked File Server (No OS, No TCP/IP)**
+### [STM32-Embedded-HTTP-Server](https://github.com/BlackWiz/STM32-Embedded-HTTP-Server)
 
-Collaborative project building a remote file storage node on STM32G0. Replacing heavy IP stacks with **"MiniProt"**, 
-a custom lightweight (<8KB) transport protocol over raw Ethernet frames for SD card file management.
+Bare-Metal Embedded HTTP Server with JSON Command Interface
 
-**Team Split (Target: Dec 17, 2025):**
-- **My Role:** Protocol framing, CRC-16 error detection/correction, bare-metal SPI driver, ENC28J60 integration
-- **Sathvik:** Protocol reliability and security mechanisms
+A portfolio-grade embedded networking project where an STM32 microcontroller acts as a standalone HTTP server over Ethernet. A standard web browser communicates directly with the MCU using HTTP and JSON to control hardware in real time.
 
-**Project Phases:**
-1. **Phase 1 (Dec 17):** ENC28J60 driver analysis, bare-metal SPI driver, protocol implementation, driver integration
-2. **Phase 2:** FatFs integration, Em-CLI for remote operations, SD card file management
-3. **Phase 3:** IoT add-on (problem statement TBD)
+This project focuses on core embedded systems engineering, not web development — emphasizing protocol correctness, deterministic parsing, and system-level design under tight memory constraints.
 
-**IoT Use Case:**
+**What It Does:**
+- STM32 listens on a static IP as an HTTP server (port 80)
+- Browser sends HTTP GET/POST requests with JSON payloads
+- Firmware parses HTTP and JSON using FSMs (no dynamic memory)
+- Commands are mapped to embedded application logic (LED control as baseline)
+- STM32 responds with proper HTTP status and payloads
 
-```mermaid
-flowchart TB
-    subgraph IoT_Sensors["IoT Sensor Network"]
-        S1[Temperature Sensor]
-        S2[Humidity Sensor]
-        S3[Motion Sensor]
-        S4[Other IoT Devices]
-    end
-    
-    subgraph Edge_Device["TinyServe-STM32 (Edge Node)"]
-        ETH[Ethernet Controller<br/>ENC28J60]
-        MCU[STM32G0<br/>Protocol Stack]
-        SD[SD Card Storage<br/>FatFs]
-        
-        ETH <-->|SPI| MCU
-        MCU <-->|SPI| SD
-    end
-    
-    subgraph Cloud_Backend["Remote System"]
-        GW[Gateway/Server]
-        DB[(Database)]
-        API[REST API]
-        UI[Web Dashboard]
-        
-        GW --> DB
-        DB --> API
-        API --> UI
-    end
-    
-    S1 -->|Sensor Data| MCU
-    S2 -->|Sensor Data| MCU
-    S3 -->|Sensor Data| MCU
-    S4 -->|Sensor Data| MCU
-    
-    MCU -->|Store Locally| SD
-    MCU <-->|MiniProt over Ethernet| ETH
-    ETH <-->|Network| GW
-    
-    UI -->|Query/Commands| API
-    API -->|Retrieve Data| GW
-    GW <-->|File Operations| ETH
-    
-    style Edge_Device fill:#e1f5ff
-    style IoT_Sensors fill:#fff4e1
-    style Cloud_Backend fill:#f0e1ff
-    
-    classDef storage fill:#c8e6c9
-    class SD storage
-```
-
-Solving **edge data storage + remote accessibility** for IoT deployments: local buffering during network outages, 
-lightweight remote file operations, cost-effective Ethernet over cellular/WiFi.
+**Why This Project Matters:**
+- Demonstrates embedded Ethernet bring-up and driver development
+- Shows correct use of lwIP in bare-metal (NO_SYS) mode
+- Highlights protocol layering: Ethernet → IP → TCP → HTTP → JSON → App
+- Designed to scale cleanly into RTOS-based systems later
 
 **The Hard Parts:**
-- Designing lightweight protocol with robust framing and error correction
-- SPI arbiter for Ethernet Controller + SD Card on shared bus (no mutex)
-- MISRA C:2012 compliance with TDD workflow
-- 8KB protocol stack budget on 36KB RAM system
+- Porting lwIP without an RTOS and managing timers manually
+- Writing a minimal but browser-compatible HTTP server
+- FSM-based JSON parsing under tight RAM constraints
+- Debugging TCP/IP behavior using Wireshark
+- Ensuring deterministic behavior without malloc/free
 
 **Key Learnings:**
-- Custom protocol design over raw Ethernet frames (no TCP/IP overhead)
-- Register-level SPI driver with resource contention management
-- TDD for protocol logic validation before hardware deployment
-- ENC28J60 Ethernet controller architecture and integration
+- Embedded networking fundamentals and TCP/IP behavior
+- Ethernet controller (ENC28J60) architecture and SPI integration
+- Designing robust parsers for untrusted network input
+- Tradeoffs between custom protocols vs standard stacks
+- Writing interview-defensible embedded networking code
 
-**Tech:** STM32G071RB | Bare-metal C | ENC28J60 (Ethernet) | FatFs | Em-CLI | SPI Arbitration | MISRA C | Unity (TDD)
+**Tech:** STM32F4 / STM32G0 | Bare-metal C | ENC28J60 (Ethernet) | lwIP (NO_SYS) | HTTP | JSON FSM | SPI | Static IP
 
 ---
 
