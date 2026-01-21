@@ -86,42 +86,55 @@ and memory management entirely from first principles.
 
 ---
 
-### [STM32-Embedded-HTTP-Server](https://github.com/BlackWiz/STM32-Embedded-HTTP-Server)
+### [HTTP-JSON-Assistant](https://github.com/BlackWiz/HTTP-JSON-Assistant)
+**Network-Accessible Command Execution System for Embedded Hardware**
 
-Bare-Metal Embedded HTTP Server with JSON Command Interface
+A bare-metal embedded networking project demonstrating real-world protocol integration. An STM32 microcontroller acts as an HTTP server over Ethernet, receiving JSON commands from standard HTTP clients and executing deterministic hardware actions—all without an RTOS.
 
-A portfolio-grade embedded networking project where an STM32 microcontroller acts as a standalone HTTP server over Ethernet. A standard web browser communicates directly with the MCU using HTTP and JSON to control hardware in real time.
-
-This project focuses on core embedded systems engineering, not web development — emphasizing protocol correctness, deterministic parsing, and system-level design under tight memory constraints.
+This project explores an alternative to smartphone-dependent reminder systems by placing execution responsibility on dedicated embedded hardware. While the long-term vision is a standalone alarm assistant, Phase-1 validates the complete communication and execution pipeline.
 
 **What It Does:**
-- STM32 listens on a static IP as an HTTP server (port 80)
-- Browser sends HTTP GET/POST requests with JSON payloads
-- Firmware parses HTTP and JSON using FSMs (no dynamic memory)
-- Commands are mapped to embedded application logic (LED control as baseline)
-- STM32 responds with proper HTTP status and payloads
+- STM32 operates as network endpoint with static IP (Ethernet-based)
+- Receives commands via HTTP from clients (Postman, curl, browser)
+- Parses JSON payloads using deterministic finite state machines
+- Executes hardware actions (LED control as Phase-1 validation)
+- Operates in bare-metal mode without RTOS dependencies
+
+**System Architecture:**
+- **Hardware Layer:** ENC28J60 Ethernet controller (SPI interface)
+- **Network Stack:** lwIP in NO_SYS mode (no operating system)
+- **Protocol Stack:** Ethernet → IP → TCP → HTTP → JSON → Application
+- **Execution Layer:** Command parser → GPIO driver → Hardware action
 
 **Why This Project Matters:**
-- Demonstrates embedded Ethernet bring-up and driver development
-- Shows correct use of lwIP in bare-metal (NO_SYS) mode
-- Highlights protocol layering: Ethernet → IP → TCP → HTTP → JSON → App
-- Designed to scale cleanly into RTOS-based systems later
+- Demonstrates end-to-end embedded networking from hardware to application
+- Shows practical lwIP integration without RTOS (manual timer management)
+- Highlights deterministic parsing under memory constraints (no malloc)
+- Built as foundation for time-critical embedded assistant functionality
+- Emphasizes protocol correctness and system-level design
 
 **The Hard Parts:**
-- Porting lwIP without an RTOS and managing timers manually
-- Writing a minimal but browser-compatible HTTP server
-- FSM-based JSON parsing under tight RAM constraints
-- Debugging TCP/IP behavior using Wireshark
-- Ensuring deterministic behavior without malloc/free
+- Integrating lwIP in NO_SYS mode and managing stack timers manually
+- Bringing up ENC28J60 Ethernet controller over SPI
+- Writing deterministic HTTP and JSON parsers without dynamic allocation
+- Debugging multi-layer protocol interactions using Wireshark
+- Ensuring reliable TCP/IP behavior in bare-metal environment
+- Planning architecture for future RTOS migration and real-time features
 
 **Key Learnings:**
-- Embedded networking fundamentals and TCP/IP behavior
-- Ethernet controller (ENC28J60) architecture and SPI integration
-- Designing robust parsers for untrusted network input
-- Tradeoffs between custom protocols vs standard stacks
-- Writing interview-defensible embedded networking code
+- Embedded Ethernet controller architecture and SPI communication
+- TCP/IP stack behavior and lwIP internals (NO_SYS mode)
+- HTTP protocol implementation for embedded systems
+- FSM-based parsing techniques for constrained environments
+- Network debugging methodology (packet capture, protocol analysis)
+- Designing scalable embedded systems architecture
 
-**Tech:** STM32F4 / STM32G0 | Bare-metal C | ENC28J60 (Ethernet) | lwIP (NO_SYS) | HTTP | JSON FSM | SPI | Static IP
+**Project Evolution:**
+- **Phase-1 (Current):** Communication pipeline validation with LED action
+- **Phase-2 (Planned):** Time-based scheduling and persistent configuration
+- **Phase-3 (Future):** Full alarm/reminder assistant with RTC integration
+
+**Tech:** STM32 | Bare-metal C | ENC28J60 (Ethernet) | lwIP (NO_SYS) | HTTP | JSON FSM | SPI | Static IP
 
 ---
 
@@ -182,16 +195,11 @@ Building on Serial-JSON-Bridge, this project adds human-machine interaction thro
 **Immediate (Next 2-3 Months):**
 - [x] Complete custom RTOS kernel (DONE - see Cortex-M0-RTOS-Kernel)
 - [x] Complete Interactive CLI (DONE - foundation for TinyServe Em-CLI)
-- [ ] Complete TinyServe-STM32 Phase 1 (Protocol Stack + Loopback Test)
-- [ ] Complete TinyServe-STM32 Phase 2 (Full NAS functionality)
-- [ ] Complete UART driver with DMA
-- [ ] Build I2C driver + EEPROM interface
+- [ ] Complete HTTP-JSON-Assistant Phase 1 (Communication pipeline + LED validation)
+- [ ] Complete HTTP-JSON-Assistant Phase 2 (Time-based scheduling + RTC)
 
 **Near-term (3-6 Months):**
-- [ ] Multi-peripheral system integration
 - [ ] Bootloader design and implementation
-- [ ] Low-power mode optimization
-- [ ] CAN bus driver (leverage automotive knowledge)
 
 **Goal:** Build sufficient portfolio depth to transition into firmware/embedded engineering role.
 
@@ -211,7 +219,7 @@ Building on Serial-JSON-Bridge, this project adds human-machine interaction thro
 - ✅ Hands-on experience (real hardware, real debugging)
 - ✅ Growth mindset (document failures, iterate, improve)
 - ✅ Deep dive capability (built complete RTOS from scratch)
-- ✅ Protocol design experience (custom networking stack in progress)
+- ✅ Protocol design experience (networking stack with lwIP)
 
 **What I'm looking for:**
 Entry-level to junior embedded/firmware roles where I can apply software engineering 
