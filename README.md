@@ -36,7 +36,7 @@ I spent years working above hardware abstractions. Now I'm learning what's below
 
 ## 🚀 Projects
 
-### 🌐 [HTTP-Ethernet-Assistant](https://blackwiz.github.io/HTTP-Ethernet-Assistant/)
+### 🌐 [HTTP-Ethernet-Assistant](https://github.com/BlackWiz/HTTP-Ethernet-Assistant)
 **Network-controlled hardware assistant with dual-implementation strategy**
 
 STM32 acts as HTTP server over Ethernet, receiving JSON commands from standard HTTP clients and executing hardware actions. Implemented twice—first with HAL for rapid prototyping, then rewritten in bare-metal C to master low-level driver architecture.
@@ -47,7 +47,7 @@ STM32 acts as HTTP server over Ethernet, receiving JSON commands from standard H
 
 ---
 
-### ⚙️ [CortexM0-RTOS-Kernel](https://blackwiz.github.io/CortexM0-RTOS-Kernel/)
+### ⚙️ [CortexM0-RTOS-Kernel](https://github.com/BlackWiz/CortexM0-RTOS-Kernel)
 **Preemptive priority-based RTOS built from scratch**
 
 Complete Real-Time Operating System for ARM Cortex-M0+ (M.Tech dissertation). Implements task scheduling, context switching, synchronization primitives, and memory management entirely from first principles. O(1) scheduler with 4.81 µs context switch time.
@@ -58,7 +58,7 @@ Complete Real-Time Operating System for ARM Cortex-M0+ (M.Tech dissertation). Im
 
 ---
 
-### 📡 [Serial-JSON-Bridge](https://blackwiz.github.io/Serial-JSON-Bridge/)
+### 📡 [Serial-JSON-Bridge](https://github.com/BlackWiz/Serial-JSON-Bridge)
 **Bare-metal UART driver with JSON command parsing**
 
 My first real embedded project. Built complete UART driver from scratch (no HAL), integrated JSON parser, and learned what "memory constraints" actually means. Foundation for understanding interrupt-driven architecture and hardware debugging.
@@ -69,7 +69,7 @@ My first real embedded project. Built complete UART driver from scratch (no HAL)
 
 ---
 
-### 💻 [STM32-Serial-Shell](https://blackwiz.github.io/STM32-Serial-Shell/)
+### 💻 [STM32-Serial-Shell](https://github.com/BlackWiz/STM32-Serial-Shell)
 **Interactive CLI framework for embedded systems**
 
 Building on Serial-JSON-Bridge, this project adds human-machine interaction through a full command-line interface. Extensible command registration system with built-in commands and JSON support—serving as foundation for remote device management.
