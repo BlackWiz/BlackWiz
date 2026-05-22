@@ -1,4 +1,3 @@
-```markdown
 # Sri Hari Shankar Sharma
 
 **Senior Embedded Systems Engineer — 7 years**
